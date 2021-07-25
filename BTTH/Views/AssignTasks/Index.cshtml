@@ -1,0 +1,90 @@
+﻿@model PagedList.IPagedList<BTTH.Models.AssignTask>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    @using (Html.BeginForm("Index", "AssignTasks", FormMethod.Get)) {
+        <p>
+            Search : @Html.TextBox("searchString")
+            Department : @Html.DropDownList("Dep", "all")
+            Company : @Html.DropDownList("com","all")
+            Date : @Html.DropDownList("Date","all")
+	
+            <input type="submit" value="submit" />
+        </p>
+
+       
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+           
+            ClientName
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Employee.EmployeeName)*@
+            EmployeeName
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Project.ProjectName)*@
+            Project
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Task)*@
+            Task
+        </th>
+        <th>
+           Note
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Task)*@
+            Project Start
+        </th>
+        <th>
+            Project End
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Client.ClientName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.ProjectName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Task)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.ProjectStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.ProjectEnd)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AssignTaskId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AssignTaskId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AssignTaskId })
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+Paged 
+@(Model.PageCount < Model.PageNumber? 0 : Model.PageNumber  ) of @Model.PageCount
+@Html.PagedListPager(Model,Page_No => Url.Action("Index",new { Page_No})) 
